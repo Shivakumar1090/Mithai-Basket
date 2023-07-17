@@ -1,0 +1,34 @@
+.order-card{
+    transition: all .5s;
+    &:hover{
+      transform: scale(1.02);
+    }
+    .summary-accordian{
+      width: 350px;
+      margin: 10px 0;
+      .accordian-summary{
+        padding: 0 5px;
+        border-radius: 4px;
+        background-color: #c1c7d8;
+      }
+      .accordian-details{
+  
+      }
+    }
+    .cancel-btn{
+      background-color: #c73939;
+    }
+  }
+  .order-info{
+    .info-key{
+      font-family: Poppins;
+      font-size: 15px;
+      color: #3D3D3D;
+      font-weight: 700;
+    }
+    .info-value{
+      font-family: Poppins;
+      font-size: 15px;
+      color: #3D3D3D;
+    }
+  }
