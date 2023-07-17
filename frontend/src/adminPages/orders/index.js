@@ -61,11 +61,11 @@ function AdminOrders() {
 
     return (
         <>{user.isAdmin ? 
-            <Box className="orders-container" padding='0px 40px 0px 40px'>
+            <Box className="orders-container" padding='0px 40px 40px 40px'>
                 <Typography variant="h5" style={{ margin: "2% 0" }} >
                     Orders
                 </Typography>
-                <TableContainer>
+                <TableContainer >
                     <Table>
                         <TableHead>
                             <TableRow>

@@ -1,10 +1,8 @@
 // import './style.scss';
 import { useEffect, useState } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
-import Navbar from '../../components/Navbar/index';
 import { Navigate, useNavigate } from 'react-router-dom';
 import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
-import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp';
 import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
 import AddShoppingCartSharpIcon from '@mui/icons-material/AddShoppingCartSharp';
 import ExitToAppSharpIcon from '@mui/icons-material/ExitToAppSharp';
@@ -38,10 +36,10 @@ function AdminDashBoard() {
             .then(async(res) => {
                 await setOrders(res.data);
                 console.log(res.data);
-                res.data.filter(ele => {
-                    ele.status === "Cancelled" && setCancelledOrders(canceledOrders+1);
-                    ele.status === "Accepted" && setAcceptedOrders(acceptedOrders+1);
-                    ele.status === "Out for Delivery" && setOutfordelivaryOrders(outfordelivaryOrders+1);
+                res.data.filter(async (ele) => {
+                    await ele.status === "Cancelled" && setCancelledOrders(prev => prev+1);
+                    await ele.status === "Accepted" && setAcceptedOrders(prev => prev+1);
+                    await ele.status === "Out for Delivery" && setOutfordelivaryOrders(prev => prev+1);
                 })
             })
             .catch(err => {
@@ -71,12 +69,12 @@ function AdminDashBoard() {
                         ORDERS
                     </Typography>
                 </Box>
-                <Box onClick={() => navigate("/dashboard")} className={classes.sidebarMenu}>
+                {/* <Box onClick={() => navigate("/dashboard")} className={classes.sidebarMenu}>
                     <ManageAccountsSharpIcon color='primary' className={classes.menuIcon} />
                     <Typography>
                         ACCOUNT SETTINGS
                     </Typography>
-                </Box>
+                </Box> */}
                 <Box onClick={() => { localStorage.clear(); navigate("/") }} className={classes.sidebarMenu}>
                     <ExitToAppSharpIcon color='primary' className={classes.menuIcon} />
                     <Typography>
@@ -89,7 +87,7 @@ function AdminDashBoard() {
             <Box className={classes.statsContainer}>
                 <Paper className={classes.orders} elevation={4}>
                     <Typography variant='h6' style={{ fontWeight: "bolder" }} color='primary' >Total Orders</Typography>
-                    <Typography variant='h5' style={{ fontWeight: "bolder" }} >{orders.length}</Typography>
+                    <Typography variant='h5' style={{ fontWeight: "bolder" }} >{orders?.length}</Typography>
 
                 </Paper>
                 <Paper className={classes.orders} elevation={4}>

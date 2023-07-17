@@ -7,7 +7,7 @@ const getOrders = async (req, res) => {
 
   if(!id){
     let data = await Order.find();
-    return res.send(data);
+    return res.send(data.reverse());
   }
   
   let user, orders;
