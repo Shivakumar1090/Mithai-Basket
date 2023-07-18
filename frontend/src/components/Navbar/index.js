@@ -42,8 +42,8 @@ const Navbar = () => {
                             </InputAdornment>
                         }
                     />
-                </Box> */}
-                
+                </Box>
+                 */}
                 <Box style={autoMargins}>
                     <Stack spacing={2} direction='row' style={autoMargins}>
                         {
@@ -93,14 +93,6 @@ const appbar = {
     justifyContent: "space-between",
     padding: "15px 30px 15px 30px",
 };
-
-// const searchBar = {
-//     display: "flex",
-//     border: "1px solid #7F0606",
-//     borderRadius: "12px",
-//     padding: "7px",
-//     paddingLeft: "15px",
-// }
 
 const icon = {
     fontSize: '28px',

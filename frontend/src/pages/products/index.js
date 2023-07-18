@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Chip, Divider, Paper, Stack, Typography } from "@mui/material";
+import { Button, Chip, Divider, InputAdornment, InputBase, Paper, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import SearchIcon from '@mui/icons-material/Search';
 
 const { GET_PRODUCTS } = require('../../apis/products');
 
@@ -18,6 +19,15 @@ const Products = () => {
     const [selectedHover, setSelectedHovered] = useState(null);
 
     const [products, setProducts] = useState([]);
+    const [search , setSearch] = useState("");
+
+    const filteredProducts = products.filter((product) => {
+        if (
+          product.name.toLowerCase().includes(search)
+        ) {
+          return product;
+        }
+    });
 
     useEffect(() => {
         axios
@@ -37,10 +47,29 @@ const Products = () => {
     return (
         <div>
             <Box padding='40px'>
-                <Typography variant='h5' style={heading}>Our Products</Typography>
-                <Divider color="#eee" light />
+                <Box display='flex' justifyContent='space-between' style={autoMargins}>
+                    <Box style={autoMargins}>
+                        <Typography variant='h5' style={heading}>Our Products</Typography>
+                    </Box>
+                    <Box style={searchBar}>
+                        <InputBase
+                            placeholder="Search"
+                            style={{width:'500px', color: '#791314'}}
+                            onChange={(e) => setSearch(e.target.value.toLowerCase())}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <SearchIcon style={icon}/>
+                                </InputAdornment>
+                            }
+                        />
+                    </Box>
+                    <Box marginLeft={15}>
+                        {/* <Button variant="outlined" >Filter</Button> */}
+                    </Box>
+                </Box>
+                <Divider color="#eee" light style={{marginTop: '15px'}}/>
                 <Box style={list}>
-                    {products.map((single, hoveringkey) => {
+                    {filteredProducts?.map((single, hoveringkey) => {
                         return (
                             <Paper
                                 key={single._id}
@@ -71,8 +100,13 @@ const Products = () => {
     );
 }
 
+const icon = {
+    fontSize: '28px',
+    color: '#791314',
+}
+
 const heading = {
-    marginBottom: "12px",
+    // marginBottom: "12px",
     fontWeight: '700',
 }
 
@@ -93,6 +127,11 @@ const paper = {
 
 }
 
+const autoMargins = {
+    marginTop: 'auto' ,
+    marginBottom: 'auto',
+}
+
 const img = {
     height: '270px',
     objectFit: 'cover',
@@ -106,6 +145,14 @@ const prodName = {
     fontSize: '19px',
     fontWeight: '400',
     textTransform: 'capitalize',
+}
+
+const searchBar = {
+    display: "flex",
+    border: "1px solid #7F0606",
+    borderRadius: "10px",
+    padding: "7px",
+    paddingLeft: "10px",
 }
 
 export default Products;
