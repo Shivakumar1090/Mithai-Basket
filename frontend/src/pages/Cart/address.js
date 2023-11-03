@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 const Address = ({total,setOpenAddress}) => {
     const navigate = useNavigate();
+    
     const cart = useSelector((state) => state.cart);
     const user = useSelector((state) => state.user);
 
@@ -52,8 +53,8 @@ const Address = ({total,setOpenAddress}) => {
     }
     
     return (
-        <Box style={ModalStyle}>
-            <Typography style={heading}>Are you sure want to place this order?</Typography>
+        <Box sx={ModalStyle}>
+            <Typography variant="heading"  fontSize= "20px">Are you sure want to place this order?</Typography>
             <TextField
                 style={input}
                 variant="standard"
@@ -98,19 +99,11 @@ const Address = ({total,setOpenAddress}) => {
     )
 }
 
-const heading = {
-    fontWeight: "bold",
-    fontSize: "20px",
-    marginBottom: "15px",
-    color: '#791314',
-};
-
 const input = {
-    margin: "7px",
-    width: "400px",
+    margin: "5px",
+    width: '100%',
     color: "#791314",
     padding: "2px",
-    background: '#fff',
 };
 
 
@@ -121,15 +114,10 @@ const ModalStyle = {
     transform: "translate(-50%, -50%)",
     backgroundColor: '#fff',
     border: "none",
-    borderRadius: "3px",
+    borderRadius: "5px",
     textAlign: 'center',
-    color: "black",
-    width: 400,
+    width: {xs: '70%', sm: 350, md: 400},
     p: 4,
-    paddingLeft: "3rem",
-    paddingRight: "3rem",
-    paddingTop: '1rem',
-    paddingBottom: '1rem',
 }
 
 export default Address;

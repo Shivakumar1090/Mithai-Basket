@@ -28,21 +28,23 @@ const THEME = createTheme({
   typography: {
     fontFamily: "Varela Round",
     color: "#791314",
+    heading: {
+      fontWeight: '600',
+      fontSize: '24px',
+      fontFamily: "Varela Round",
+      color: "#791314",
+    },
+    link: {
+      textDecoration: 'underline',
+      fontFamily: "Varela Round",
+      color: "#791314",
+    }
   },
   palette: {
     primary: {
       main: '#791314'
     },
   },
-  // breakpoints: {
-  //   values: {
-  //     mobile: 0,
-  //     tablet: 640,
-  //     laptop: 1024,
-  //     desktop: 1200,
-  //   },
-  // },
-
 });
 
 export default App;

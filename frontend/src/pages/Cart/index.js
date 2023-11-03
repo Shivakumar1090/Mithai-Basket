@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Button, Chip, Divider, Modal, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
+//MUI 
+import { Chip, Divider, Modal, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
 import { Box } from "@mui/system";
+
+//MUI ICONS
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+
+// OTHER COMPONENTS
 import EmptyCart from "../../components/emptyCart";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import ButtonContained from "../../components/Button/containedButton";
 import Address from "./address";
+
+//API ENDPOINTS
 import { AddCartItem, DeleteCartItem, DecreaseCartItem } from "../../redux/actions/cart";
-import axios from "axios";
+
+
 
 const { UPDATE_CART } = require('../../apis/cart');
 const DOMAIN = process.env.REACT_APP_DOMAIN;
@@ -65,63 +76,86 @@ const Cart = () => {
     }, [cart])
 
     return (
-        <Box padding='70px 30px' >
+        <Box padding={{xs: '15px' , md: '50px 30px'}} >
             {cart.length === 0 ?
                 <EmptyCart></EmptyCart>
                 :
                 <Box>
                     <Box style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }} >
-                        <Typography style={heading}>Your Cart</Typography>
-                        <Link to='/products' style={{ textDecoration: 'none' }}>
-                            <Typography style={continueShopFont}>Continue Shopping</Typography>
+                        <Typography variant="heading" fontSize={{xs: '20px' , md: '28px'}}>Your Cart</Typography>
+                        <Link to='/products' style={{ textDecoration: 'none'}}>
+                            <Typography variant="link">Continue Shopping</Typography>
                         </Link>
                     </Box>
                     
                     <TableContainer >
                     <Table  >
                         <TableHead>
-                            <TableRow >
-                                <TableCell style={tableHeadFonts}>PRODUCT</TableCell>
-                                <TableCell style={tableHeadFonts}>QAUNTITY</TableCell>
-                                <TableCell align="right" style={tableHeadFonts}>TOTAL</TableCell>
+                            <TableRow>
+                                <StyledTableCell>PRODUCT</StyledTableCell>
+                                <StyledTableCell>QAUNTITY</StyledTableCell>
+                                <StyledTableCell align="right">TOTAL</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {cart.map(cartItem => {
                                 return (
                                     <TableRow key={cartItem._id}>
-                                        <TableCell component="th" scope="row" style={{ border: 'none' }}>
+                                        <StyledTableCell component="th" scope="row">
                                             <Box
+                                                style={{ cursor: 'pointer' }}
                                                 key={cartItem._id}
                                                 display='flex'
                                                 onClick={() => Navigate(`/product/${cartItem._id}`, { state: { details: cartItem } })}
                                             >
-                                                <img src={`${DOMAIN}/${cartItem.img}`} alt="img" width="120px" height='120px' style={{ cursor: 'pointer' }}></img>
-                                                <Box margin='auto 0px auto 20px' style={{ cursor: 'pointer' }}>
-                                                    <Typography fontSize='20px' color='primary'>{cartItem.name}</Typography>
-                                                    <Typography fontSize='15px' color='primary'>Pack: {cartItem.grams} Grams</Typography>
+                                                <Box 
+                                                    width={{xs: '70px', md:'120px'}} 
+                                                    height={{xs: '70px', md:'120px'}} 
+                                                    marginRight={{xs: '10px' , md:'20px'}}
+                                                >
+                                                    <img src={`${DOMAIN}/${cartItem.img}`} alt="img" style={img}></img>
+                                                </Box>
+                                                <Box margin='auto 0px auto'>
+                                                    <Typography fontSize={{xs: '13px', sm:'15px', md:'20px'}} >{cartItem.name}</Typography>
+                                                    <Typography fontSize={{xs: '8px', sm: '12px',md:'15px'}}>Pack: {cartItem.grams} Grams</Typography>
                                                 </Box>
                                             </Box>
-                                        </TableCell>
-                                        <TableCell variant="body" align='right' style={{border: 'none'}}>
-                                            <Stack spacing={1} direction='row' color='#791314'>
+                                        </StyledTableCell>
+
+                                        <StyledTableCell variant="body" align='right'>
+                                            <Stack spacing={1} direction='row' >
                                                 <Chip
                                                     variant="outlined"
                                                     color='primary'
                                                     label={
-                                                        <Stack spacing={2} direction='row' >
-                                                            <AddOutlinedIcon cursor='pointer' onClick={() => handleIncrease(cartItem)} />
-                                                            <Typography>{cartItem?.count}</Typography>
-                                                            <RemoveOutlinedIcon cursor='pointer' onClick={() => handleDecrease(cartItem)} />
+                                                        <Stack spacing={{xs: 1,md: 2}} direction='row' style={autoMargins}>
+                                                            <AddOutlinedIcon 
+                                                                style={autoMargins}
+                                                                sx={{fontSize: { xs: 12, sm: 18 } }} 
+                                                                cursor='pointer' 
+                                                                onClick={() => handleIncrease(cartItem)} 
+                                                            />
+                                                            <Typography fontSize={{xs : 11,sm: 15}}>{cartItem?.count}</Typography>
+                                                            <RemoveOutlinedIcon  
+                                                                style={autoMargins}
+                                                                sx={{fontSize: { xs: 13, sm: 18 } }} 
+                                                                cursor='pointer' 
+                                                                onClick={() => handleDecrease(cartItem)} 
+                                                            />
                                                         </Stack>
                                                     }
                                                 />
-                                                <DeleteOutlineOutlinedIcon cursor='pointer' onClick={() => handleDelete(cartItem)} />
+                                                <DeleteOutlineOutlinedIcon 
+                                                    style={autoMargins}
+                                                    sx={{fontSize: { xs: 16, sm: 18 } }} 
+                                                    cursor='pointer' 
+                                                    onClick={() => handleDelete(cartItem)} 
+                                                />
                                             </Stack>
-                                        </TableCell>
-                                        <TableCell align="right" style={{ border: 'none', color: '#791314', fontSize: '15px' }}>
+                                        </StyledTableCell>
+                                        <StyledTableCell align="right">
                                             ₹ {cartItem.price * cartItem?.count}
-                                        </TableCell>
+                                        </StyledTableCell>
                                     </TableRow>
                                 )
                             })}
@@ -130,8 +164,14 @@ const Cart = () => {
                     </TableContainer>
                     <Divider />
                     <Box textAlign='right' marginTop='20px' >
-                        <Typography>SubTotal.  ₹{totalPrice}</Typography>
-                        <Button style={checkout} onClick={() => setOpenAddress(true)}>Check Out</Button>
+                        <Typography >SubTotal.  ₹{totalPrice}</Typography>
+                        <ButtonContained 
+                            text="Check out"
+                            onClick={() => setOpenAddress(true)}
+                            width={{xs: "200px", md: '300px'}}
+                            padding="10px"
+                            fontSize={{xs: '14px' , md: '18px'}}
+                        />
                     </Box>
                 </Box>
             }
@@ -142,31 +182,42 @@ const Cart = () => {
     );
 }
 
-const heading = {
-    fontWeight: "bold",
-    fontSize: "30px",
-};
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    color: theme.palette.primary.main,
+    [theme.breakpoints.up('xs')]: {
+        fontSize: 13,
+    },
+    [theme.breakpoints.up('sm')]: {
+        fontSize: 15,
+    },
+    [theme.breakpoints.up('md')]: {
+        fontSize: 17,
+    },
+    
+  },
+  [`&.${tableCellClasses.body}`]: {
+    [theme.breakpoints.down('sm')]: {
+        fontSize: 12,
+    },
+    fontSize: 15,
+    border: 'none',
+    color: '#791314'
+  },
+}));
 
-const tableHeadFonts = {
-    color: '#9B4F50',
-    fontSize: '18px'
+const img = {
+    cursor: 'pointer',
+    width: '100%',
+    height: '100%',
+    objectFit:'cover'
 }
 
-const continueShopFont = {
-    fontSize: '17px',
-    textDecoration: 'underline',
-    color: '#791314',
-    marginTop: '10px',
+
+const autoMargins = {
+    marginTop: 'auto' ,
+    marginBottom: 'auto',
 }
 
 
-const checkout = {
-    width: '250px',
-    background: '#791314',
-    color: '#fff',
-    padding: '10px',
-    marginTop: '10px',
-    fontSize: '18px',
-    textTransform: "capitalize",
-}
 export default Cart;

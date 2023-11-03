@@ -1,17 +1,14 @@
-// import './style.scss';
 import { useEffect, useState } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { Navigate, useNavigate } from 'react-router-dom';
 import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
-import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
 import AddShoppingCartSharpIcon from '@mui/icons-material/AddShoppingCartSharp';
-import ExitToAppSharpIcon from '@mui/icons-material/ExitToAppSharp';
 import DensitySmallSharpIcon from '@mui/icons-material/DensitySmallSharp';
-// import { getadminorders } from '../../../api/order';
 import { makeStyles } from '@mui/styles';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import CirculerLoader from '../../components/Loader/circularLoader';
 
 const {GET_ORDERS} = require('../../apis/order');
 
@@ -20,33 +17,35 @@ function AdminDashBoard() {
     const classes = styles();
 
     const user = useSelector(state => state.user);
-
+    const [loading,setLoading] = useState(false);
     const [orders, setOrders] = useState([]);
     const [canceledOrders , setCancelledOrders] = useState(0);
     const [acceptedOrders , setAcceptedOrders] = useState(0);
     const [outfordelivaryOrders ,setOutfordelivaryOrders ] = useState(0);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
-        fetchOrders()
-    }, [])
-
-    const fetchOrders = () => {
+        setLoading(true);
         axios.post(GET_ORDERS , {})
             .then(async(res) => {
                 await setOrders(res.data);
                 console.log(res.data);
-                res.data.filter(async (ele) => {
-                    await ele.status === "Cancelled" && setCancelledOrders(prev => prev+1);
-                    await ele.status === "Accepted" && setAcceptedOrders(prev => prev+1);
-                    await ele.status === "Out for Delivery" && setOutfordelivaryOrders(prev => prev+1);
-                })
+                const cancelledCount = res.data.filter(ele => ele.status === "Cancelled").length;
+                const acceptedCount = res.data.filter(ele => ele.status === "Accepted").length;
+                const outForDeliveryCount = res.data.filter(ele => ele.status === "Out for Delivery").length;
+
+                setCancelledOrders(cancelledCount);
+                setAcceptedOrders(acceptedCount);
+                setOutfordelivaryOrders(outForDeliveryCount);
+                setLoading(false);
             })
             .catch(err => {
                 toast.error("something went wrong!");
+                setLoading(false);
                 console.log(err);
             })
-    }
+    }, [])
+
+    if(loading)return <CirculerLoader />
 
     return <>{user.isAdmin ? <Box className={classes.adminDashboard}>
         <Box className={classes.dashboard}>
@@ -75,12 +74,7 @@ function AdminDashBoard() {
                         ACCOUNT SETTINGS
                     </Typography>
                 </Box> */}
-                <Box onClick={() => { localStorage.clear(); navigate("/") }} className={classes.sidebarMenu}>
-                    <ExitToAppSharpIcon color='primary' className={classes.menuIcon} />
-                    <Typography>
-                        LOGOUT
-                    </Typography>
-                </Box>
+               
 
 
             </Box>
@@ -114,9 +108,9 @@ const styles = makeStyles({
     },
     dashboard:{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: 'row',
         height: "90vh",
-        backgroundColor: "#00dadafa",
+        backgroundColor: "#f2ce2e",
     },
     sidebar:{
         width: '250px',

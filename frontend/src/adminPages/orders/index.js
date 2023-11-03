@@ -1,9 +1,10 @@
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, tableCellClasses } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import styled from '@emotion/styled';
 
 const { GET_ORDERS,EDIT_ORDER } = require('../../apis/order');
 
@@ -69,12 +70,12 @@ function AdminOrders() {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell style={tableHead}>No. </TableCell>
-                                <TableCell style={tableHead}>Date</TableCell>
-                                <TableCell style={tableHead}>Items</TableCell>
-                                <TableCell style={tableHead} align='right'>Amount</TableCell>
-                                <TableCell style={tableHead} align='right'>Status</TableCell>
-                                <TableCell style={tableHead} align='right'>Change Status</TableCell>
+                                <StyledTableCell>No. </StyledTableCell>
+                                <StyledTableCell>Date</StyledTableCell>
+                                <StyledTableCell>Items</StyledTableCell>
+                                <StyledTableCell align='right'>Amount</StyledTableCell>
+                                <StyledTableCell align='right'>Status</StyledTableCell>
+                                <StyledTableCell align='right'>Change Status</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -85,9 +86,9 @@ function AdminOrders() {
                                         statusOptions[statusIndex + 1];
                                     return (
                                         <TableRow key={order._id}>
-                                            <TableCell style={{ textAlign: 'center' }}>{index + 1}</TableCell>
-                                            <TableCell style={{ textAlign: 'center' }} >{order.createdDate}/{order.createdMonth}</TableCell>
-                                            <TableCell style={{ textAlign: 'center' }}>
+                                            <StyledTableCell>{index + 1}</StyledTableCell>
+                                            <StyledTableCell style={{ textAlign: 'center' }} >{order.createdDate}/{order.createdMonth+1}</StyledTableCell>
+                                            <StyledTableCell style={{ textAlign: 'center' }}>
                                                 {order.items.map(ele => {
                                                     return (
                                                         <Box display='flex' justifyContent='space-between'>
@@ -96,17 +97,14 @@ function AdminOrders() {
                                                         </Box>
                                                     )
                                                 })}
-                                            </TableCell>
-                                            <TableCell style={{ textAlign: 'center' }} align='right'>{order.totalPrice} </TableCell>
-                                            <TableCell style={{ textAlign: 'center' }} align='right'>
+                                            </StyledTableCell>
+                                            <StyledTableCell style={{ textAlign: 'center' }} align='right'>{order.totalPrice} </StyledTableCell>
+                                            <StyledTableCell style={{ textAlign: 'center' }} align='right'>
                                                 {order.status}
-                                            </TableCell>
-                                            {
-                                                order.status !== "Cancelled" &&
-                                                <TableCell style={{ textAlign: 'center' }} align='right'>
-                                                    <Button onClick={() => onEditOrder({ status: nextState },order._id)}>Mark as {nextState}</Button>
-                                                </TableCell>
-                                            }
+                                            </StyledTableCell>
+                                            <StyledTableCell style={{ textAlign: 'center' }} align='right'>
+                                                {order.status !== "Cancelled" && <Button onClick={() => onEditOrder({ status: nextState },order._id)}>Mark as {nextState}</Button>}
+                                            </StyledTableCell>
                                         </TableRow>
                                     )
                                 })
@@ -118,10 +116,31 @@ function AdminOrders() {
         </>)
 }
 
-const tableHead = {
-    backgroundColor: '#1212',
-    color: '#000',
-    textAlign: 'center'
-}
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      
+        [theme.breakpoints.up('xs')]: {
+            fontSize: 13,
+        },
+        [theme.breakpoints.up('sm')]: {
+            fontSize: 15,
+        },
+        [theme.breakpoints.up('md')]: {
+            fontSize: 17,
+        },
+        backgroundColor: '#1212',
+        color: '#000',
+        textAlign: 'center'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 12,
+        },
+        fontSize: 15,
+        borderBottom: '1px solid #ddd',
+        color: '#791314',
+        textAlign: 'center',
+    },
+}));
 
 export default AdminOrders

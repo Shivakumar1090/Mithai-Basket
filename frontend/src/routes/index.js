@@ -1,22 +1,9 @@
 import React, { Suspense } from "react";
-import { BrowserRouter, Switch, Route, Routes, Navigate } from 'react-router-dom';
-import privateRoute from "./privateroutes";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import Loader from "../components/Loader/loader";
-
-// import AdminProducts from "../adminPages/products";
-// import AdminOrders from "../adminPages/orders";
-// import AdminDashBoard from "../adminPages/dashboard";
-
-// import CustomerLogin from "./pages/auth/login";
-// import CustomerRegisteration from "./pages/auth/register";
-// import Cart from "./pages/Cart";
-// import Product from "./pages/products/product";
-// import Welcome from "../pages/welcome";
 import Navbar from "../components/Navbar";
-// import Products from "./pages/products";
 import { useSelector } from "react-redux";
-// import Payment from "./pages/payment/payment";
-// import OrdersSection from "./pages/orders/orders";
 
 const Welcome = React.lazy(() => import('../pages/welcome/index'));
 const CustomerLogin = React.lazy(() => import('../pages/auth/login'));

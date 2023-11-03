@@ -1,6 +1,7 @@
+import { Link, useNavigate } from "react-router-dom";
+
 import { Badge, Button, Stack, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { Link, useNavigate } from "react-router-dom";
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -23,13 +24,14 @@ const Navbar = () => {
         window.localStorage.clear();
         window.location.href="/";
     };
+
     return ( 
         <div>
-            <Box style={appbar} elevation={0}>
+            <Box style={appbar} >
                 <Stack spacing={1} direction='row' style={autoMargins}>
                     {/* <img src={LadduImg} alt="" width={200}/> */}
-                    <Link to={user.isAdmin ? "/admin" : "/"} style={{ textDecoration: "none" }}>
-                        <Typography style={logo}>Mithai Basket</Typography>
+                    <Link to={user.isAdmin ? "/admin" : "/products"} style={{ textDecoration: "none" }}>
+                        <Typography sx={logo}>Mithai Basket</Typography>
                     </Link>
                 </Stack>
                 {/* <Box style={searchBar}>
@@ -48,29 +50,29 @@ const Navbar = () => {
                     <Stack spacing={2} direction='row' style={autoMargins}>
                         {
                             user.isLogged && 
-                            <Typography color='primary' style={autoMargins}>
+                            <Typography color='primary' fontSize={{xs: '0px' , md: '15px'}} style={autoMargins}>
                                 Hi... {user.name} 
                             </Typography>
                         }
                         {user.isLogged && !user.isAdmin &&
-                            <Button onClick={() => Navigate('/orders')}>Your Orders</Button>
-                        }
+                            <Button sx={{fontSize: {xs: '11px' , md: '15px'}}} onClick={() => Navigate('/orders')}>Your Orders</Button>
+                        } 
                         {
                             user.isLogged && !user.isAdmin &&
                             <Link to="/cart" style={{ textDecoration: "none"}} >
                                 <Tooltip title='Cart' arrow disableInteractive>
-                                    <Badge badgeContent={cart.length} color="primary" overlap="circular">
-                                        <LocalMallOutlinedIcon style={icon}/>
+                                    <Badge badgeContent={cart.length}  color="primary" overlap="circular">
+                                        <LocalMallOutlinedIcon sx={icon}/>
                                     </Badge>
                                 </Tooltip>
                             </Link>
                         }
                         {user.isLogged ? 
                             <Tooltip title="Logout" arrow disableInteractive>
-                                <LogoutIcon style={icon} cursor='pointer' onClick={logoutHandler}></LogoutIcon>
+                                <LogoutIcon sx={icon} cursor='pointer' onClick={logoutHandler}></LogoutIcon>
                             </Tooltip> : 
                             <Link to="/login" style={{ textDecoration: "none"}}>
-                                <AccountCircleOutlinedIcon style={icon} />
+                                <AccountCircleOutlinedIcon sx={icon} />
                             </Link>}
                     </Stack>
                 </Box>
@@ -83,7 +85,7 @@ const logo = {
     fontFamily: "Raleway",
     color: "#791314",
     fontWeight: "600",
-    fontSize: "25px",
+    fontSize: {xs: '18px' , sm: '22px', md: '25px'},
 };
 
 const appbar = {
@@ -91,11 +93,11 @@ const appbar = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: "15px 30px 15px 30px",
+    padding: "15px",
 };
 
 const icon = {
-    fontSize: '28px',
+    fontSize: {xs: '22px', md: '28px'},
     color: '#791314',
 }
 

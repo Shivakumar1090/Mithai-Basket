@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './style.css';
 
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Radio, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Radio, Typography } from "@mui/material";
 import { useLocation, useNavigate, } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -55,7 +55,7 @@ const Payment = (props) => {
 
     return (
         <div>
-            <Box className='payment-wrapper'>
+            <Box width={{xs: '300px' , sm:'500px', md:'600px'}}  margin= "20px auto">
                 <Accordion className='summary-accordian' expanded>
                     <AccordionSummary
                         className='accordian-summary'

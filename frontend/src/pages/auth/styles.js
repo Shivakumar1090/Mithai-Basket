@@ -1,23 +1,33 @@
 const container = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    marginTop: "50px",
+  display: 'flex',
+  minHeight: '55vh',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
 }
+
+const form = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
 
 const heading = {
   fontWeight: "bold",
-  fontSize: "30px",
-  marginBottom: "20px",
+  marginBottom: "10px",
+  fontSize: '30px',
 };
 
 const input = {
-  margin: "12px",
-  width: "400px",
+  margin: "10px 0px 10px 0px",
+  width: "100%",
   color: "#791314",
   border: "1px solid #791314",
   borderRadius: "5px",
-  padding: "8px",
+  padding: "6px",
 };
 
-export {container,heading,input};
+
+export {container,heading,input,form};

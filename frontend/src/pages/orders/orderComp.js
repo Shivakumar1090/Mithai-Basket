@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import './order.scss';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -11,13 +10,13 @@ import Button from '@mui/material/Button';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { Chip } from '@mui/material';
 
 const {EDIT_ORDER} = require('../../apis/order');
 
 const Order = ({ data, fetchOrders }) => {
-//   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
-  const statusOptions = ['Placed', 'Accepted', 'Out for Delivery', 'Completed'];
+  
 
   const createdAt = new Date(data?.createdAt);
   const formattedDate = createdAt.getHours() + ":" + createdAt.getMinutes() + ", " +
@@ -27,9 +26,6 @@ const Order = ({ data, fetchOrders }) => {
   data?.items?.forEach((item) => {
     totalPrice += (item?.count * item?.price);
   });
-
-  const statusIndex = statusOptions.indexOf(data?.status || '')
-  const nextState = (statusIndex === statusOptions.length) ? null : statusOptions[statusIndex + 1];
 
     const editOrder = async (payload, orderId) => {
         try {
@@ -61,7 +57,7 @@ const Order = ({ data, fetchOrders }) => {
   }
 
   return (
-    <Card className='order-card'>
+    <Card sx={{width: {xs: '300px' , sm: '350px',md: '400px'}}}>
       <CardContent>
         <KeyValue left="Order Id:" value={data?._id} />
         <KeyValue left="Ordered By:" value={data?.userId?.name} />
@@ -72,7 +68,7 @@ const Order = ({ data, fetchOrders }) => {
             expandIcon={<ExpandMoreIcon />}
             className='accordian-summary'
           >
-            <Typography>Order Summary</Typography>
+            <Typography fontSize={{xs: '13px' , md: '17px'}}>Order Summary</Typography>
           </AccordionSummary>
           <AccordionDetails className='accordian-details'>
             {
@@ -93,8 +89,9 @@ const Order = ({ data, fetchOrders }) => {
         <KeyValue left="Order Status:" value={data?.status} />
         <KeyValue left="Payment Mode:" value={data?.paymentMode === 'COD' ? 'Cash On delivery' : data?.paymentMode} />
         <Box display="flex" marginTop="15px" gap="20px">
-          {data?.status === 'Placed' | data?.status === 'Accepted' &&
-          <Button variant="contained" className='cancel-btn' onClick={() => onEditOrder({status: 'Cancelled'})}>Cancel</Button>
+          {data?.status === 'Placed' | data?.status === 'Accepted' ?
+            <Button variant="contained" className='cancel-btn' onClick={() => onEditOrder({status: 'Cancelled'})}>Cancel</Button>
+            : <Chip label={data?.status}/>
           }
         </Box>
       </CardContent>
@@ -105,8 +102,8 @@ const Order = ({ data, fetchOrders }) => {
 const KeyValue = (props) => {
   return (
     <Box display="flex" gap="20px" className='order-info'>
-      <Typography className='info-key'>{props.left}</Typography>
-      <Typography className='info-value'>{props.value}</Typography>
+      <Typography fontSize={{xs: '13px' , md: '17px',color: '#'}}>{props.left}</Typography>
+      <Typography fontSize={{xs: '13px' , md: '17px'}}>{props.value}</Typography>
     </Box>
   );
 }

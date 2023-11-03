@@ -1,11 +1,4 @@
-// import { configureStore } from "@reduxjs/toolkit";
 import rootreducers from "./reducers/main";
-
-// const store = configureStore(
-//     {reducer: rootreducers},
-// )
-
-// export default store;
 
 import { configureStore } from '@reduxjs/toolkit'
 import {
@@ -19,9 +12,6 @@ import {
   REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-// import { PersistGate } from 'redux-persist/integration/react'
-
-// import rootReducer from './reducers'
 
 export default function reduxStore () {
     
