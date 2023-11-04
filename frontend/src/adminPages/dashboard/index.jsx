@@ -28,7 +28,7 @@ function AdminDashBoard() {
         axios.post(GET_ORDERS , {})
             .then(async(res) => {
                 await setOrders(res.data);
-                console.log(res.data);
+                
                 const cancelledCount = res.data.filter(ele => ele.status === "Cancelled").length;
                 const acceptedCount = res.data.filter(ele => ele.status === "Accepted").length;
                 const outForDeliveryCount = res.data.filter(ele => ele.status === "Out for Delivery").length;

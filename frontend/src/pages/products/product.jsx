@@ -25,7 +25,6 @@ const Product = (props) => {
             quantity: item.count || 0,
             type: type,
         }
-        console.log(data);
         axios.post(UPDATE_CART+userId, data)
             .then((res) => {
                 console.log("updated");

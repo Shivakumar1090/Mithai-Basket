@@ -23,7 +23,7 @@ const getOrders = async (req, res) => {
     return res.status(400).send({ error: "user doesn't exist!" });
   }
 
-  const response = await Promise.all(orders.map(async (order) => {
+  const response = await Promise.all(orders.reverse().map(async (order) => {
     await order.populate('userId');
     return {
       ..._.pick(order, [

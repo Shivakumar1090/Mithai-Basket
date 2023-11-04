@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, InputBase, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -11,6 +11,7 @@ const { container, input, heading, form } = require("./styles");
 const { LOGIN } = require('../../apis/user');
 
 const CustomerLogin = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,11 +24,10 @@ const CustomerLogin = () => {
 
         axios.post(LOGIN, checkuser)
             .then(async (resp) => {
-                console.log(resp);
                 dispatch(UpdateUser({ ...resp.data, isLogged: true,}));
                 resp.status === 200 ? toast.success("Successfully Logged in") : toast.warn(resp.data.Message);
-                if(resp.data.isAdmin === true)window.location.href='/admin'
-                else window.location.href='/products'
+                if(resp.data.isAdmin === true)navigate('/admin');
+                else navigate('/products');
             })
             .catch(async (err) => {
                 console.log(err);

@@ -22,7 +22,7 @@ const Navbar = () => {
         dispatch(Logout());
         dispatch(ClearCart)
         window.localStorage.clear();
-        window.location.href="/";
+        Navigate("/");
     };
 
     return ( 

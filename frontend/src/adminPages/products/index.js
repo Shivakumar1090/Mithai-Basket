@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import axios from "axios";
 import { Button, Grid, Modal, Paper, TextField, Typography } from "@mui/material";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const { GET_PRODUCTS, DELETE_PRODUCT, EDIT_PRODUCT, ADD_PRODUCT } = require("../../apis/products");
@@ -10,6 +10,7 @@ const { GET_PRODUCTS, DELETE_PRODUCT, EDIT_PRODUCT, ADD_PRODUCT } = require("../
 const DOMAIN = process.env.REACT_APP_DOMAIN;
 
 const AdminProducts = () => {
+    const navigate = useNavigate();
     const user = useSelector(state => state.user);
     const [Data, setData] = useState([]);
     const [selectedHover, setSelectedHovered] = useState(null);
@@ -38,7 +39,6 @@ const AdminProducts = () => {
         })
             .then(async (res) => {
                 await setData(res.data);
-                console.log(res.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -46,14 +46,13 @@ const AdminProducts = () => {
     }, []);
 
     const deleteHandler = (id) => {
-        console.log(id);
         axios.delete(DELETE_PRODUCT + id, {
             headers: {
                 Authorization: `Bearer ${window.localStorage.getItem("token")}`,
             },
         })
             .then(() => {
-                window.location.href = "/admin/products";
+                window.location.reload();
             })
             .catch(err => {
                 console.log(err);
@@ -77,8 +76,7 @@ const AdminProducts = () => {
                 },
             })
             .then(() => {
-                console.log("saved");
-                window.location.href = "/admin/products";
+                window.location.reload();
             })
             .catch((err) => {
                 console.log(err);
@@ -99,7 +97,7 @@ const AdminProducts = () => {
             },
         })
             .then(() => {
-                window.location.href = "/admin/products";
+                window.location.reload();
             })
             .catch(err => {
                 console.log(err);

@@ -33,10 +33,8 @@ function AdminOrders() {
 
     const editOrder = async (payload, orderId) => {
         try {
-            console.log(orderId);
             const resp = await axios.post(EDIT_ORDER + orderId, payload);
             if (resp.status === 200) {
-                console.log(resp.data);
                 return resp?.data;
             } else {
                 throw Error(resp.data.error || "something went wrong!");

@@ -33,7 +33,6 @@ const Payment = (props) => {
             ...orderState, 
             paymentMode: 'COD'
         }
-        console.log(newOrder);
         axios
             .post(CREATE_ORDER, newOrder, {
                 headers: {
@@ -41,7 +40,6 @@ const Payment = (props) => {
                 },
             })
             .then((res) => {
-                console.log("added");
                 toast.success("order placed!");
                 dispath(ClearCart());
                 Navigate('/products');

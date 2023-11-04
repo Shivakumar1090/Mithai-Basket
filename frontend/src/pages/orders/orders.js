@@ -35,7 +35,6 @@ const OrdersSection = () => {
       setFetching(true);
       try {
         const resp = await axios.post(GET_ORDERS, payload);
-        console.log(resp);
         setOrders(resp.data);
         setFetching(false);
       } catch (err) {
